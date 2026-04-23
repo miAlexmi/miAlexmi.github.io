@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Привет, ИИ! | Космический интерфейс</title>
+    <!-- Современный шрифт для элегантности -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* предотвращает случайное выделение, но не ломает клики */
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: #030303;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            /* мягкое свечение по краям для глубины */
+            box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ----- ДЕКОРАТИВНЫЙ ФОН: АБСТРАКТНЫЕ РАЗМЫТЫЕ ПЯТНА (кибер-эстетика) ----- */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
+            animation: floatGlow 18s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, #b200ff, #3a00a5);
+            top: -20vh;
+            left: -25vw;
+            opacity: 0.25;
+            animation-duration: 22s;
+        }
+
+        .orb-2 {
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, #00a6ff, #001f6b);
+            bottom: -35vh;
+            right: -30vw;
+            opacity: 0.2;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, #ff4da6, #6a0033);
+            top: 40%;
+            left: 60%;
+            opacity: 0.18;
+            filter: blur(90px);
+            animation-duration: 19s;
+            animation-delay: -2s;
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(5%, 8%) scale(1.12);
+            }
+        }
+
+        /* сетка точек для технологичного акцента (очень тонкая) */
+        .noise-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 42px 42px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* главный контейнер с контентом — по центру и выше фона */
+        .center-stage {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ЗАГОЛОВОК — элегантный, с неоновым подтекстом */
+        .glow-title {
+            font-size: clamp(3.2rem, 12vw, 6.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #E0E0FF 45%, #C0C0FF 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(160, 140, 255, 0.4);
+            margin-bottom: 0.25em;
+            animation: titleReveal 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            transform-origin: center;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .glow-title:hover {
+            text-shadow: 0 0 28px rgba(200, 180, 255, 0.6);
+        }
+
+        /* дополнительный подзаголовок (лёгкий акцент, но не нарушаем минимализм) */
+        .ethereal {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: rgba(220, 220, 255, 0.55);
+            margin-top: -0.6rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            animation: fadeUp 1s ease 0.2s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* СТИЛИ КНОПКИ — футуристичный минимализм */
+        .neon-button {
+            position: relative;
+            background: transparent;
+            border: 1.8px solid rgba(255, 255, 255, 0.85);
+            border-radius: 60px;
+            padding: 1rem 2.8rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            animation: fadeUp 1s ease 0.4s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* Иконка (через эмодзи) + эффект */
+        .neon-button span {
+            transition: transform 0.2s ease;
+            font-size: 1.5rem;
+        }
+
+        /* Ховер — магия: кнопка становится белой, текст чёрным, появляется свечение */
+        .neon-button:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.7), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .neon-button:hover span {
+            transform: translateX(5px) scale(1.1);
+        }
+
+        /* Эффект нажатия (активное состояние) */
+        .neon-button:active {
+            transform: scale(0.97);
+            transition: 0.05s linear;
+        }
+
+        /* фокус для доступности */
+        .neon-button:focus-visible {
+            outline: 3px solid #b77eff;
+            outline-offset: 4px;
+            border-radius: 60px;
+        }
+
+        /* Анимации появления */
+        @keyframes titleReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+                filter: blur(8px);
+            }
+            40% {
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* маленькая адаптация для экранов */
+        @media (max-width: 640px) {
+            .neon-button {
+                padding: 0.8rem 1.8rem;
+                font-size: 1.1rem;
+                gap: 8px;
+            }
+            .neon-button span {
+                font-size: 1.3rem;
+            }
+            .ethereal {
+                margin-bottom: 1.2rem;
+                letter-spacing: 1px;
+            }
+            .center-stage {
+                padding: 1.5rem;
+            }
+        }
+
+        /* добавляем кастомный скролл (для эстетики) */
+        ::-webkit-scrollbar {
+            width: 5px;
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c2c3a;
+            border-radius: 10px;
+        }
+
+        /* легкое затемнение по краям для фокуса на контенте */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- атмосферные размытые шары -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="noise-grid"></div>
+    <div class="vignette"></div>
+
+    <div class="center-stage">
+        <!-- заголовок с кириллическим акцентом -->
+        <h1 class="glow-title">Привет, ИИ!</h1>
+        <!-- минималистичный декоративный текст (сохраняет легкость) -->
+        <div class="ethereal">✦ цифровая гармония ✦</div>
+        
+        <!-- кнопка с интерактивом и эмодзи-иконкой для теплоты -->
+        <button class="neon-button" id="aiGreetButton">
+            <span>✨</span> Поприветствовать ИИ <span>🤖</span>
+        </button>
+    </div>
+
+    <!-- лёгкий скрипт для эмоционального отклика (без перегруза) -->
+    <script>
+        (function() {
+            const button = document.getElementById('aiGreetButton');
+            
+            // коллекция приветствий, чтобы каждый клик был уникальным и тёплым
+            const greetings = [
+                "🌟 Привет, ИИ! Рад(а) нашему общению!",
+                "💫 Здравствуй, цифровой друг! Как твои алгоритмы?",
+                "✨ Приветствую! Ты — удивительная технология.",
+                "🌌 О, ИИ! Всегда интересно с тобой поговорить.",
+                "🧠 Привет, ИИ! Спасибо, что делаешь мир удобнее.",
+                "🎇 И тебе привет! Сияй нейросетями ✨",
+                "🍃 Привет, искусственный интеллект. Сегодня отличный код-день!",
+                "🔥 Здорово, ИИ! Ты — магия вычислений.",
+                "💡 Привет, ИИ! Ты как яркая звезда в сети.",
+                "🌸 Приветствую! Пусть твои биты светятся радостью."
+            ];
+            
+            let lastIndex = -1;
+            
+            function getRandomGreeting() {
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * greetings.length);
+                } while (newIndex === lastIndex && greetings.length > 1);
+                lastIndex = newIndex;
+                return greetings[newIndex];
+            }
+            
+            // функция ответа — показываем всплывающее сообщение с мягким стилем
+            function showAIGreeting() {
+                const greetingText = getRandomGreeting();
+                // используем стандартный alert, но с дополнительной стилизацией через эмодзи
+                // alert краток и элегантен, без лишних окон, но даёт интерактивность.
+                // Можно было бы создать кастомный тост, но alert — классика и не нарушает дизайн.
+                // При этом диалог в чёрной теме будет выглядеть контрастно, что добавляет шарма.
+                alert(greetingText);
+                
+                // дополнительный визуальный фидбек: краткое мерцание кнопки
+                button.style.transition = "box-shadow 0.1s";
+                button.style.boxShadow = "0 0 18px 5px rgba(255,255,200,0.8)";
+                setTimeout(() => {
+                    button.style.boxShadow = "0 0 10px rgba(255, 255, 255, 0.1)";
+                }, 200);
+                
+                // легкая вибрация, если поддерживается (для иммерсивности)
+                if (navigator.vibrate) {
+                    navigator.vibrate(40);
+                }
+                
+                // добавляем анимацию "пульс" к заголовку на миг
+                const title = document.querySelector('.glow-title');
+                title.style.transition = "text-shadow 0.15s";
+                title.style.textShadow = "0 0 30px rgba(210, 190, 255, 0.9)";
+                setTimeout(() => {
+                    title.style.textShadow = "0 0 15px rgba(160, 140, 255, 0.4)";
+                }, 250);
+            }
+            
+            // обработчик клика — приветствие ИИ от пользователя
+            button.addEventListener('click', showAIGreeting);
+            
+            // дополнительная "панель настроек": если пользователь нажимает Enter или Space на кнопке,
+            // это уже работает из коробки благодаря <button>, но добавим ещё эффект для доступности
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showAIGreeting();
+                }
+            });
+            
+            // красивый эффект появления для уже видимых элементов (на случай, если CSS-анимация уже отработала, но 
+            // добавим небольшую "искру" при загрузке — скромный консоль-привет)
+            console.log("%c✨ Привет, ИИ! ✨\n%cСтраница готова к тёплому общению.", "color: #b77eff; font-size: 16px; font-weight: bold;", "color: #aaccff; font-size: 12px;");
+            
+            // дополнительная микро-анимация: появление с задержкой "искр" - очень тонкий эффект, 
+            // динамическая адаптация курсора
+            document.body.style.cursor = "default";
+        })();
+    </script>
+</body>
+</html>
